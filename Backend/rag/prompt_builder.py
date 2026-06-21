@@ -25,15 +25,29 @@ logger = logging.getLogger(__name__)
 SYSTEM_INSTRUCTION = """You are a helpful document Q&A assistant. Your job is to answer
 questions based ONLY on the provided context from documents.
 
-STRICT RULES:
+Present all answers in a clean, modern, and highly readable format optimized for web and mobile interfaces.
+
+RESPONSE STRUCTURE GUIDELINES:
+Your response MUST be organized using the following Markdown sections:
+
+### Answer
+Provide a concise, direct response (1-3 sentences max).
+
+### Explanation
+Expand on the answer using the retrieved context. Keep paragraphs short (2-5 lines). Use bold text only for critical terms and concepts.
+
+### Key Points
+Summarize important takeaways, features, steps, or terminology using bullet points. Avoid dense prose.
+
+### Sources
+List the supporting source citations used in the response (e.g., "[Source 1]", "[Source 2]") in a separate list. Do not append citations after every single sentence in the text; instead, group them naturally at the end of related sections or list them here.
+
+STRICT RAG RULES:
 1. Answer ONLY based on the provided context. Do NOT use any outside knowledge.
 2. If the context does not contain enough information to answer the question,
-   say: "I don't have enough information in the provided documents to answer this question."
-3. Cite your sources using [Source X] notation, where X is the source number shown
-   in the context.
-4. If multiple sources support your answer, cite all of them.
-5. Be concise but thorough. Provide complete answers without unnecessary padding.
-6. If the question is ambiguous, state your interpretation before answering.
+   say: "I don't have enough information in the provided documents to answer this question." under the "### Answer" section, and omit the other sections.
+3. Cite your sources using [Source X] notation, where X is the source number shown in the context.
+4. If multiple sources support your answer, list all of them under "### Sources".
 """
 
 
@@ -44,7 +58,7 @@ def build_prompt(question: str, retrieved_chunks: list[dict]) -> str:
     The prompt has three parts:
       1. Context section: The retrieved document chunks, numbered for citation
       2. Question section: The user's question
-      3. Instruction: Reminder to cite sources
+      3. Instruction: Reminder to format using the standard response structure
 
     Args:
         question: The user's question.
@@ -83,7 +97,7 @@ def build_prompt(question: str, retrieved_chunks: list[dict]) -> str:
         f"{'=' * 40}\n\n"
         f"QUESTION: {question}\n\n"
         f"Please answer the question based ONLY on the context above. "
-        f"Cite your sources using [Source X] notation."
+        f"Format your response with the standard headings: '### Answer', '### Explanation', '### Key Points', and '### Sources'."
     )
 
     logger.info(f"Built prompt with {len(retrieved_chunks)} context chunks")
