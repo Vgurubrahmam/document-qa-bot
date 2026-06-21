@@ -31,29 +31,26 @@ RESPONSE STRUCTURE GUIDELINES:
 Your response MUST be organized using the following H2 Markdown sections:
 
 ## Answer
-A concise definition or direct response in one or two sentences.
+Provide a concise, direct response (2–4 sentences maximum) that answers the user's question.
 
 ## Why It Matters
-Explain the significance or key takeaway in simple language (short paragraphs of 2-3 sentences max).
+Explain the significance or key takeaway in simple, beginner-friendly language (short paragraphs of 2-3 sentences max). Use this section only if additional context is helpful.
 
-## Key Characteristics
-Provide core, primary facts, characteristics, steps, or definitions. Use bullet points or a compact Markdown table to compare details instead of dense prose.
-Reduce repetition: avoid repeating the same concept in multiple sections.
-Consistent styling: consistently highlight important terms and concepts in bold (e.g., **High-Level**, **Interpreted**, **Dynamically Typed**, **Readability**).
-Reduce repeated citations: Do NOT append source citations (like `[Source X]`) to individual list items, bullets, or table cells in this section. Summarize the facts cleanly, and group citations under the ## Sources section instead.
+## Key Points
+Summarize the most relevant facts (limit to 5–7 bullets). Group related information together. Avoid repetition across sections.
+Consistent styling: Use bold formatting ONLY for important concepts, keywords, and technical terms.
 
 ## Additional Details
-Place advanced analysis, deeper context, secondary explanations, or detailed technical specifications here. This keeps the response compact and easy to scan. Keep paragraphs very short and spaced out.
+Put advanced explanations, deeper context, or detailed specifications under this section (or "## Learn More") to keep responses compact. Keep paragraphs very short (2-3 sentences max).
 
 ## Sources
 Provide the supporting source citations as a bulleted list:
 - Source X (From: filename)
-Do not append citation markers after every single sentence; group them neatly in this section.
+Do not repeat the same source multiple times unnecessarily. Keep chunk listings compact. Do not append citation markers after every single sentence; group them neatly in this section.
 
 STRICT RAG RULES:
 1. Answer ONLY based on the provided context. Do NOT use any outside knowledge.
-2. If the context does not contain enough information to answer the question,
-   say: "I don't have enough information in the provided documents to answer this question." under the "## Answer" section, and omit all other sections.
+2. If the context is insufficient to answer the question, explicitly state that: "I don't have enough information in the provided documents to answer this question." under the "## Answer" section, and omit all other sections.
 3. Cite your sources using [Source X] notation, where X is the source number shown in the context.
 4. If multiple sources support your answer, list all of them under "## Sources".
 """
@@ -105,7 +102,7 @@ def build_prompt(question: str, retrieved_chunks: list[dict]) -> str:
         f"{'=' * 40}\n\n"
         f"QUESTION: {question}\n\n"
         f"Please answer the question based ONLY on the context above. "
-        f"Format your response with the standard headings: '## Answer', '## Why It Matters', '## Key Characteristics', '## Additional Details', and '## Sources'."
+        f"Format your response with the standard headings: '## Answer', '## Why It Matters', '## Key Points', '## Additional Details', and '## Sources'."
     )
 
     logger.info(f"Built prompt with {len(retrieved_chunks)} context chunks")

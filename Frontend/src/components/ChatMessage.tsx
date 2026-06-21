@@ -180,7 +180,9 @@ function AssistantMessageContent({ content }: { content: string }) {
 
         // Check if this section should be collapsible
         const isCollapsible =
-          titleLower.includes("details") || titleLower.includes("source");
+          titleLower.includes("details") ||
+          titleLower.includes("source") ||
+          titleLower.includes("learn");
 
         if (isCollapsible) {
           return (
