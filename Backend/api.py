@@ -167,12 +167,17 @@ async def ingest_documents():
     if not all_chunks:
         raise HTTPException(status_code=400, detail="No text extracted from any documents.")
 
-    # Generate embeddings
-    embeddings = generate_embeddings(all_chunks)
-
-    # Store in ChromaDB
-    count = add_documents(all_chunks, embeddings, all_metadatas)
-    total = get_collection_count()
+    # Generate embeddings and store in ChromaDB
+    try:
+        embeddings = generate_embeddings(all_chunks)
+        count = add_documents(all_chunks, embeddings, all_metadatas)
+        total = get_collection_count()
+    except Exception as e:
+        logger.error(f"Ingestion failed: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Ingestion pipeline failed. Check if GOOGLE_API_KEY environment variable is set correctly. Error: {str(e)}"
+        )
 
     return {
         "message": f"Ingestion complete. Processed {len(files)} file(s), "
@@ -199,7 +204,14 @@ async def query_documents(request: QueryRequest):
         )
 
     # Embed the question
-    question_embedding = generate_single_embedding(question)
+    try:
+        question_embedding = generate_single_embedding(question)
+    except Exception as e:
+        logger.error(f"Failed to generate embedding for query: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to generate embedding for query. Check API key configuration. Error: {str(e)}"
+        )
 
     # Search for similar chunks
     results = query(question_embedding)
@@ -229,7 +241,14 @@ async def query_documents(request: QueryRequest):
             }
 
     # Generate answer
-    result = generate_answer(question, retrieved_chunks)
+    try:
+        result = generate_answer(question, retrieved_chunks)
+    except Exception as e:
+        logger.error(f"Answer generation failed: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Answer generation failed. Check API key configuration. Error: {str(e)}"
+        )
 
     # Filter to only cited sources
     answer_text = result["answer"]
