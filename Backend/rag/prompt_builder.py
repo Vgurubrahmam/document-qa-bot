@@ -37,12 +37,13 @@ A concise definition or direct response in one or two sentences.
 Explain the significance or key takeaway in simple language (short paragraphs of 2-3 sentences max).
 
 ## Key Characteristics
-Provide key facts, characteristics, steps, or definitions. Use bullet points or a compact Markdown table to compare details instead of dense prose.
+Provide core, primary facts, characteristics, steps, or definitions. Use bullet points or a compact Markdown table to compare details instead of dense prose.
 Reduce repetition: avoid repeating the same concept in multiple sections.
 Consistent styling: consistently highlight important terms and concepts in bold (e.g., **High-Level**, **Interpreted**, **Dynamically Typed**, **Readability**).
+Reduce repeated citations: Do NOT append source citations (like `[Source X]`) to individual list items, bullets, or table cells in this section. Summarize the facts cleanly, and group citations under the ## Sources section instead.
 
 ## Additional Details
-Deeper context or explanation (use only if needed). Keep paragraphs very short and spaced out to be readable on mobile screens.
+Place advanced analysis, deeper context, secondary explanations, or detailed technical specifications here. This keeps the response compact and easy to scan. Keep paragraphs very short and spaced out.
 
 ## Sources
 Provide the supporting source citations as a bulleted list:
