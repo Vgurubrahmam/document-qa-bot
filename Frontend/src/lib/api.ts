@@ -16,7 +16,7 @@ import type {
 } from "@/types";
 
 // Backend API base URL
-const API_BASE = "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://document-qa-bot-fh3j.onrender.com";
 
 /**
  * Upload files to the backend data/ directory.
