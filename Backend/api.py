@@ -84,6 +84,15 @@ class MessageResponse(BaseModel):
 
 # --- Endpoints ---
 
+@app.get("/")
+async def root():
+    """Root endpoint returning API status."""
+    return {
+        "status": "online",
+        "message": "Document Q&A Bot API is running. Visit /docs for Swagger interactive documentation."
+    }
+
+
 @app.post("/api/upload", response_model=MessageResponse)
 async def upload_documents(files: list[UploadFile] = File(...)):
     """
